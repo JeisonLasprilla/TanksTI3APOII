@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.ti3.HelloController">
+   <children>
+      <ImageView fitHeight="400.0" fitWidth="600.0" pickOnBounds="true" smooth="false">
+         <image>
+            <Image url="@../../../images/HelloView.jpg" />
+         </image>
+      </ImageView>
+      <Pane prefHeight="400.0" prefWidth="600.0">
+         <children>
+            <Button layoutX="258.0" layoutY="318.0" mnemonicParsing="false" onAction="#play" prefHeight="42.0" prefWidth="84.0" style="-fx-border-color: white; -fx-background-color: transparent; -fx-border-width: 2;" text="PLAY" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Button>
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>
