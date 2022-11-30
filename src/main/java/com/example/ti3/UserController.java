@@ -5,7 +5,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
 import model.Control;
-import model.Player;
+import model.InfoPlayer;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -43,8 +43,8 @@ public class UserController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        Control.getInstance().getPlayers()[0] = new Player("CPU", 0);
-        Control.getInstance().getPlayers()[1] = new Player("UNNAMED", 0);
-        Control.getInstance().getPlayers()[2] = new Player("UNNAMED", 0);
+        Control.getInstance().getPlayers()[0] = new InfoPlayer("CPU", 0);
+        Control.getInstance().getPlayers()[1] = new InfoPlayer("UNNAMED", 0);
+        Control.getInstance().getPlayers()[2] = new InfoPlayer("UNNAMED", 0);
     }
 }

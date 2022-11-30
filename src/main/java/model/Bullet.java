@@ -8,10 +8,6 @@ import javafx.scene.image.Image;
 
 public class Bullet {
 
-    private Image status;
-
-    private Vector statusPos;
-
     private Canvas canvas;
     private GraphicsContext gc;
     private Image bullet;
@@ -19,8 +15,7 @@ public class Bullet {
     private Vector direction;
 
     public Bullet(Canvas canvas, String bulletPath, double x,double y, Vector direction) {
-        status = null;
-                statusPos = new Vector(0,0);
+
         this.canvas = canvas;
         gc = canvas.getGraphicsContext2D();
         String uri = "file:"+ HelloApplication.class.getResource(bulletPath).getPath();
@@ -28,6 +23,7 @@ public class Bullet {
         this.pos = new Vector(x*1, y*1);
         this.direction = Vector.instanceOf(direction);
     }
+
     public void draw(){
         gc.save();
         gc.translate(pos.x, pos.y);

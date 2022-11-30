@@ -2,27 +2,35 @@ package model;
 
 public class Player {
 
-    private String name;
-    private double score;
+    private Avatar avatar;
+    private BulletStatus bulletStatuses[] = new BulletStatus[6];
+    private Life lives[] = new Life[5];
 
-    public Player(String name, double score) {
-        this.name = name;
-        this.score = score;
+    public Player(Avatar avatar) {
+        this.avatar = avatar;
     }
 
-    public String getName() {
-        return name;
+    public Avatar getAvatar() {
+        return avatar;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setAvatar(Avatar avatar) {
+        this.avatar = avatar;
     }
 
-    public double getScore() {
-        return score;
+    public BulletStatus[] getBulletStatuses() {
+        return bulletStatuses;
     }
 
-    public void setScore(double score) {
-        this.score = score;
+    public void setBulletStatuses(BulletStatus[] bulletStatuses) {
+        this.bulletStatuses = bulletStatuses;
+    }
+
+    public Life[] getLives() {
+        return lives;
+    }
+
+    public void setLives(Life[] lives) {
+        this.lives = lives;
     }
 }
