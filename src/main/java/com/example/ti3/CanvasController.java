@@ -3,11 +3,13 @@ package com.example.ti3;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Bounds;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import model.Avatar;
 import model.Bullet;
@@ -15,11 +17,9 @@ import model.Map;
 import model.Vector;
 
 import java.net.URL;
-import java.util.Random;
 import java.util.ResourceBundle;
 
 public class CanvasController implements Initializable {
-
     @FXML
     private Canvas canvas;
     private GraphicsContext gc;
@@ -27,13 +27,14 @@ public class CanvasController implements Initializable {
 
 
     //Elementos gráficos
-    private Avatar player1;
+    public static Avatar player1;
 
     private Avatar player2;
 
     private Avatar CPU;
     private Bullet bullet;
-    private Map map;
+    public static Map map;
+    private Bounds bounds;
 
 
     //Estados de las teclas
@@ -49,9 +50,9 @@ public class CanvasController implements Initializable {
         canvas.setOnKeyPressed(this::onKeyPressed);
         canvas.setOnKeyReleased(this::onKeyReleased);
 
-        player1 = new Avatar(canvas, "greenTank.png", new Vector(559,361),new Vector(3,3));
-        player2 = new Avatar(canvas, "blueTank.png",new Vector(559,43),new Vector(3,3));
-        CPU = new Avatar(canvas, "orangeTank.png", new Vector(40,43),new Vector(2,2));
+        player1 = new Avatar(canvas, "greenTank.png", new Vector(540,350),new Vector(3,3));
+        player2 = new Avatar(canvas, "blueTank.png",new Vector(540,38),new Vector(3,3));
+        CPU = new Avatar(canvas, "orangeTank.png", new Vector(40,38),new Vector(2,2));
         bullet = new Bullet(canvas,"greenBullet.png", player1.pos.x, player1.pos.y, Vector.instanceOf(player1.direction));
         map =  new Map(canvas, "map1.jpeg");
         draw();
@@ -168,6 +169,18 @@ public class CanvasController implements Initializable {
         new Thread(
                 ()->{
                     while(isRunning){
+                        if(map.walls.get(0).borderColision(player1)) {
+                            System.out.println("COLISION1");
+                            player1.pos.y += 10;
+                        }
+                        if(map.walls.get(0).borderColision(player2)){
+                            System.out.println("COLISION2");
+                            player2.pos.y += 10;
+                        }
+                        if(map.walls.get(0).borderColision(CPU)){
+                            System.out.println("COLISION CPU");
+                            CPU.pos.y += 10;
+                        }
                         //Dibujo
                         Platform.runLater(()->{
                             gc.setFill(Color.BLACK);
@@ -179,6 +192,7 @@ public class CanvasController implements Initializable {
 
                             //CPU
                             moveCPU();
+                            collisionReact();
 
                             //Player 1
                             if(Wpressed){
@@ -238,5 +252,59 @@ public class CanvasController implements Initializable {
                 }
         ).start();
     }
+
+    public boolean collision1(){
+        boolean collision;
+        if(player1.pos.x - player2.pos.x > -35 && player1.pos.x - player2.pos.x < 35 && player1.pos.y - player2.pos.y > -35 && player1.pos.y - player2.pos.y < 35){
+            collision=true;
+            System.out.println("Pum");
+        }else {
+            collision = false;
+        }
+        return collision;
+    }
+
+    public boolean collision2(){
+        boolean collision;
+        if(player1.pos.x - CPU.pos.x > -35 && player1.pos.x - CPU.pos.x < 35 && player1.pos.y - CPU.pos.y > -35 && player1.pos.y - CPU.pos.y < 35){
+            collision=true;
+            System.out.println("Pum");
+        }else {
+            collision = false;
+        }
+        return collision;
+    }
+
+    public boolean collision3(){
+        boolean collision;
+        if(player2.pos.x - CPU.pos.x > -35 && player2.pos.x - CPU.pos.x < 35 && player2.pos.y - CPU.pos.y > -35 && player2.pos.y - CPU.pos.y < 35){
+            collision=true;
+            System.out.println("Pum");
+        }else {
+            collision = false;
+        }
+        return collision;
+    }
+
+    public void collisionReact(){
+        if(collision1()){
+            player1.pos.x = player1.pos.x - 10;
+            player1.pos.y = player1.pos.y - 10;
+            player2.pos.x =  player2.pos.x + 10;
+            player2.pos.y =  player2.pos.y + 10;
+        } else if (collision2()) {
+            player1.pos.x = player1.pos.x - 10;
+            player1.pos.y = player1.pos.y - 10;
+            CPU.pos.x =  CPU.pos.x + 10;
+            CPU.pos.y =  CPU.pos.y + 10;
+        } else if (collision3()) {
+            CPU.pos.x = CPU.pos.x - 10;
+            CPU.pos.y = CPU.pos.y - 10;
+            player2.pos.x =  player2.pos.x + 10;
+            player2.pos.y =  player2.pos.y + 10;
+        }
+    }
+
+
 
 }
