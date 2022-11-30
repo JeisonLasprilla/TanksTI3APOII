@@ -40,6 +40,17 @@ public class Avatar {
         pos.y = (int) y - 25;
     }
 
+    public Vector getPos() {
+        return pos;
+    }
+
+    public String setAngle(double angle){
+        double amp = direction.getAmplitude();
+        direction.x = amp*Math.cos(angle);
+        direction.y = amp*Math.sin(angle);
+        return " "+Math.toDegrees(angle);
+    }
+
     public void changeAngle(double a){
         double amp = direction.getAmplitude();
         double angle = direction.getAngle();

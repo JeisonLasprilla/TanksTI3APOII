@@ -13,6 +13,7 @@ import model.Avatar;
 import model.Vector;
 
 import java.net.URL;
+import java.util.Random;
 import java.util.ResourceBundle;
 
 public class CanvasController implements Initializable {
@@ -44,9 +45,9 @@ public class CanvasController implements Initializable {
         canvas.setOnKeyPressed(this::onKeyPressed);
         canvas.setOnKeyReleased(this::onKeyReleased);
 
-        player1 = new Avatar(canvas, "blueTank.png", new Vector(100,100),new Vector(3,3));
-        player2 = new Avatar(canvas, "greenTank.png",new Vector(200,100),new Vector(3,3));
-        CPU = new Avatar(canvas, "orangeTank.png", new Vector(50,100),new Vector(4,4));
+        player1 = new Avatar(canvas, "greenTank.png", new Vector(559,361),new Vector(3,3));
+        player2 = new Avatar(canvas, "blueTank.png",new Vector(559,43),new Vector(3,3));
+        CPU = new Avatar(canvas, "orangeTank.png", new Vector(40,43),new Vector(2,2));
         draw();
     }
 
@@ -110,6 +111,41 @@ public class CanvasController implements Initializable {
         }
     }
 
+    public void moveCPU() {
+        Vector endPosition = player1.getPos();
+        Vector endPosition2 = player2.getPos();
+
+        // Update is called once per frame
+        if(Math.abs(CPU.getPos().x - endPosition.x)> 5 || Math.abs(CPU.getPos().y - endPosition.y ) > 5) {
+            double x = endPosition.x - CPU.getPos().x;
+            double y = endPosition.y - CPU.getPos().y;
+
+            double abs = Math.abs(Math.tanh(y / x));
+            if (y > -5 && y < 5){
+                if (x > 0)
+                    CPU.setAngle(0);
+                else
+                    CPU.setAngle(Math.PI);
+            } else if (x > -5 && x < 5){
+                if (y>0)
+                    CPU.setAngle(Math.PI * 0.5);
+                else
+                    CPU.setAngle(Math.PI * 1.5);
+            }else {
+
+                if (x > 0 && y > 0)
+                    CPU.setAngle(abs);
+                else if (x < 0 && y < 0)
+                    CPU.setAngle(Math.PI + abs);
+                else if (x > 0)//And y < 0
+                    CPU.setAngle(Math.PI * 1.5 + abs);
+                else if (y > 0) //And  x < 0
+                    CPU.setAngle(Math.PI - abs); //
+            }
+            CPU.moveForward();
+        }
+    }
+
     public void draw(){
         new Thread(
                 ()->{
@@ -121,6 +157,9 @@ public class CanvasController implements Initializable {
                             player1.draw();
                             player2.draw();
                             CPU.draw();
+
+                            //CPU
+                            moveCPU();
 
                             //Player 1
                             if(Wpressed){
