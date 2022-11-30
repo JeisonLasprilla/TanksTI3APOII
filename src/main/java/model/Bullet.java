@@ -12,22 +12,21 @@ public class Bullet {
     private Vector pos;
     private Vector direction;
 
-    public Bullet(Canvas canvas, String bulletPath, Vector pos, Vector direction) {
+    public Bullet(Canvas canvas, String bulletPath, double x,double y, Vector direction) {
         this.canvas = canvas;
         gc = canvas.getGraphicsContext2D();
         String uri = "file:"+ HelloApplication.class.getResource(bulletPath).getPath();
         this.bullet = new Image(uri);
-        this.pos = pos;
-        this.direction = direction;
+        this.pos = new Vector(x*1, y*1);
+        this.direction = Vector.instanceOf(direction);
     }
-
-    public Bullet (Bullet newBullet) {
-        this( newBullet.canvas, "bullet.png", newBullet.pos, newBullet.direction);
+   /* public Bullet (Bullet newBullet) {
+        this( newBullet.canvas, "bullet.png", newBullet.pos.x,newBullet.pos.y, new Vector(newBullet.direction));
     }
 
     public static Bullet newInstance(Bullet newBullet) {
-        return new Bullet(newBullet.canvas, "bullet.png", newBullet.pos, newBullet.direction);
-    }
+        return new Bullet(newBullet.canvas, "bullet.png",newBullet.pos.x,newBullet.pos.y,  new Vector(newBullet.direction));
+    }*/
 
     public void draw(){
         gc.save();
@@ -37,8 +36,15 @@ public class Bullet {
     }
 
     public void move(){
-        pos.x += 3;
-        pos.y += 3;
+        pos.x += direction.x;
+        pos.y += direction.y;
     }
 
+    public void setPos(double x, double y) {
+        this.pos = new Vector(x , y );
+    }
+
+    public void setDirection(double x, double y) {
+        this.direction = new Vector(x, y);
+    }
 }

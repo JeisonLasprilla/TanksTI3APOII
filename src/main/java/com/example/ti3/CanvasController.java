@@ -50,6 +50,7 @@ public class CanvasController implements Initializable {
         player1 = new Avatar(canvas, "greenTank.png", new Vector(559,361),new Vector(3,3));
         player2 = new Avatar(canvas, "blueTank.png",new Vector(559,43),new Vector(3,3));
         CPU = new Avatar(canvas, "orangeTank.png", new Vector(40,43),new Vector(2,2));
+        bullet = new Bullet(canvas,"bullet.png", player1.pos.x, player1.pos.y, Vector.instanceOf(player1.direction));
         draw();
     }
 
@@ -114,7 +115,9 @@ public class CanvasController implements Initializable {
 
         if(keyEvent.getCode() == KeyCode.SPACE){
             SPACEpressed = true;
+            bullet = new Bullet(canvas,"bullet.png", player1.pos.x, player1.pos.y, Vector.instanceOf(player1.direction));
         }
+
     }
 
     public void moveCPU() {
@@ -162,6 +165,7 @@ public class CanvasController implements Initializable {
                             gc.fillRect(0,0, canvas.getWidth(), canvas.getHeight());
                             player1.draw();
                             player2.draw();
+
                             CPU.draw();
 
                             //CPU
@@ -197,8 +201,7 @@ public class CanvasController implements Initializable {
 
                             //Shoot P1
                             if(SPACEpressed){
-                                Bullet bulletX = new Bullet(canvas, "bullet.png", player1.pos, player1.direction);
-                                Bullet bullet = Bullet.newInstance(bulletX);
+
                                 bullet.draw();
                                 bullet.move();
                             }

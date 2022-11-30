@@ -75,14 +75,9 @@ public class Avatar {
         pos.y -= direction.y;
     }
 
-    public void shoot(Canvas canvas){
-        double posx = pos.x;
-        double posy = pos.y;
-
-        double dirx = direction.x;
-        double diry = direction.y;
-
-
+    public Bullet shoot(){
+        //return new Bullet(canvas,"bullet.png", pos.x, pos.y, Vector.instanceOf(direction));
+        return null;
     }
 
 }
