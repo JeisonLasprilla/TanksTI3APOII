@@ -15,9 +15,9 @@ public class Control {
         return instance;
     }
 
-    private Player players [] = new Player[3];
+    private InfoPlayer infoPlayers[] = new InfoPlayer[3];
 
-    public Player[] getPlayers() {
-        return players;
+    public InfoPlayer[] getPlayers() {
+        return infoPlayers;
     }
 }

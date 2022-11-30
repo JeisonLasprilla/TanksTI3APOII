@@ -5,7 +5,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
-public class Life {
+public class BulletStatus {
 
     private Canvas canvas;
     private GraphicsContext gc;
@@ -14,10 +14,10 @@ public class Life {
     private Image image;
     private Vector pos;
 
-    public Life(Canvas canvas, Vector pos) {
+    public BulletStatus(Canvas canvas, Vector pos) {
         this.canvas = canvas;
         gc = canvas.getGraphicsContext2D();
-        String url = "file:"+ HelloApplication.class.getResource("life.png").getPath();
+        String url = "file:"+ HelloApplication.class.getResource("bulletStatus.png").getPath();
         image = new Image(url);
         this.pos = pos;
     }

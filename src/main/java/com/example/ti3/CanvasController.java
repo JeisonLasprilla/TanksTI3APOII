@@ -9,17 +9,16 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
-import model.Avatar;
-import model.Bullet;
-import model.Map;
-import model.Vector;
+import model.*;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Random;
 import java.util.ResourceBundle;
 
 public class CanvasController implements Initializable {
+
     @FXML
     private Canvas canvas;
     private GraphicsContext gc;
@@ -28,6 +27,7 @@ public class CanvasController implements Initializable {
 
     //Elementos gráficos
     public static Avatar player1;
+    private ArrayList<Player> players = new ArrayList<>();
 
     private Avatar player2;
 
@@ -50,10 +50,34 @@ public class CanvasController implements Initializable {
         canvas.setOnKeyPressed(this::onKeyPressed);
         canvas.setOnKeyReleased(this::onKeyReleased);
 
-        player1 = new Avatar(canvas, "greenTank.png", new Vector(540,350),new Vector(3,3));
-        player2 = new Avatar(canvas, "blueTank.png",new Vector(540,38),new Vector(3,3));
-        CPU = new Avatar(canvas, "orangeTank.png", new Vector(40,38),new Vector(2,2));
-        bullet = new Bullet(canvas,"greenBullet.png", player1.pos.x, player1.pos.y, Vector.instanceOf(player1.direction));
+
+        Avatar player1 = new Avatar(canvas, "greenTank.png", new Vector(559,361),new Vector(3,3));
+        Avatar player2 = new Avatar(canvas, "blueTank.png",new Vector(559,43),new Vector(3,3));
+        Avatar CPU = new Avatar(canvas, "orangeTank.png", new Vector(40,43),new Vector(2,2));
+
+        players.add(new Player(CPU)); //0
+        players.add(new Player(player1)); //1
+        players.add(new Player(player2)); //2
+
+        int n = 78;
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 6; j++) {
+                players.get(i).getBulletStatuses()[j] = new BulletStatus(canvas, new Vector(n+18,40));
+                n+=18;
+            }
+            n+= 60;
+        }
+
+        n = 78;
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 5; j++) {
+                players.get(i).getLives()[j] = new Life(canvas, new Vector(n+18,25));
+                n+=18;
+            }
+            n+= 80;
+        }
+
+        bullet = new Bullet(canvas,"greenBullet.png", players.get(1).getAvatar().pos.x, players.get(1).getAvatar().pos.y, Vector.instanceOf(players.get(1).getAvatar().direction));
         map =  new Map(canvas, "map1.jpeg");
         draw();
     }
@@ -119,49 +143,49 @@ public class CanvasController implements Initializable {
 
         if(keyEvent.getCode() == KeyCode.SPACE){
             SPACEpressed = true;
-            bullet = new Bullet(canvas,"greenBullet.png", player1.pos.x, player1.pos.y, Vector.instanceOf(player1.direction));
+            bullet = new Bullet(canvas,"greenBullet.png", players.get(1).getAvatar().pos.x, players.get(1).getAvatar().pos.y, Vector.instanceOf(players.get(1).getAvatar().direction));
         }
 
     }
 
     public void moveCPU() {
-        Vector endPosition = player1.getPos();
-        Vector endPosition2 = player2.getPos();
+        Vector endPosition = players.get(1).getAvatar().getPos();
+        Vector endPosition2 = players.get(2).getAvatar().getPos();
 
         // Update is called once per frame
-        double distance1 = Math.sqrt(Math.pow(endPosition.x-CPU.getPos().x,2) + Math.pow(endPosition.y-CPU.getPos().y,2));
-        double distance2 = Math.sqrt(Math.pow(endPosition2.x-CPU.getPos().x,2) + Math.pow(endPosition2.y-CPU.getPos().y,2));
+        double distance1 = Math.sqrt(Math.pow(endPosition.x-players.get(0).getAvatar().getPos().x,2) + Math.pow(endPosition.y-players.get(0).getAvatar().getPos().y,2));
+        double distance2 = Math.sqrt(Math.pow(endPosition2.x-players.get(0).getAvatar().getPos().x,2) + Math.pow(endPosition2.y-players.get(0).getAvatar().getPos().y,2));
         if (distance2<distance1){
             endPosition = endPosition2;
         }
 
-        if(Math.abs(CPU.getPos().x - endPosition.x)> 50 || Math.abs(CPU.getPos().y - endPosition.y ) > 50) {
-            double x = endPosition.x - CPU.getPos().x;
-            double y = endPosition.y - CPU.getPos().y;
+        if(Math.abs(players.get(0).getAvatar().getPos().x - endPosition.x)> 100 || Math.abs(players.get(0).getAvatar().getPos().y - endPosition.y ) > 100) {
+            double x = endPosition.x - players.get(0).getAvatar().getPos().x;
+            double y = endPosition.y - players.get(0).getAvatar().getPos().y;
 
             double abs = Math.abs(Math.tanh(y / x));
-            if (y > -1 && y < 1){
+            if (y > -5 && y < 5){
                 if (x > 0)
-                    CPU.setAngle(0);
+                    players.get(0).getAvatar().setAngle(0);
                 else
-                    CPU.setAngle(Math.PI);
-            } else if (x > -1 && x < 1){
+                    players.get(0).getAvatar().setAngle(Math.PI);
+            } else if (x > -5 && x < 5){
                 if (y>0)
-                    CPU.setAngle(Math.PI * 0.5);
+                    players.get(0).getAvatar().setAngle(Math.PI * 0.5);
                 else
-                    CPU.setAngle(Math.PI * 1.5);
+                    players.get(0).getAvatar().setAngle(Math.PI * 1.5);
             }else {
 
                 if (x > 0 && y > 0)
-                    CPU.setAngle(abs);
+                    players.get(0).getAvatar().setAngle(abs);
                 else if (x < 0 && y < 0)
-                    CPU.setAngle(Math.PI + abs);
+                    players.get(0).getAvatar().setAngle(Math.PI + abs);
                 else if (x > 0)//And y < 0
-                    CPU.setAngle(Math.PI * 1.5 + abs);
+                    players.get(0).getAvatar().setAngle(Math.PI * 1.5 + abs);
                 else if (y > 0) //And  x < 0
-                    CPU.setAngle(Math.PI - abs); //
+                    players.get(0).getAvatar().setAngle(Math.PI - abs); //
             }
-            CPU.moveForward();
+            players.get(0).getAvatar().moveForward();
         }
     }
 
@@ -183,12 +207,49 @@ public class CanvasController implements Initializable {
                         }
                         //Dibujo
                         Platform.runLater(()->{
-                            gc.setFill(Color.BLACK);
+                            gc.setFill(Color.DARKGRAY);
                             gc.fillRect(0,0, canvas.getWidth(), canvas.getHeight());
                             map.draw();
-                            player1.draw();
-                            player2.draw();
-                            CPU.draw();
+                            players.get(1).getAvatar().draw();
+                            players.get(2).getAvatar().draw();
+                            players.get(0).getAvatar().draw();
+
+
+                            for (BulletStatus current: players.get(1).getBulletStatuses()) {
+                                if(current!=null){
+                                    current.draw();
+                                }
+                            }
+
+                            for (Life current: players.get(1).getLives()) {
+                                if(current!=null){
+                                    current.draw();
+                                }
+                            }
+
+                            for (BulletStatus current: players.get(2).getBulletStatuses()) {
+                                if(current!=null){
+                                    current.draw();
+                                }
+                            }
+
+                            for (Life current: players.get(2).getLives()) {
+                                if(current!=null){
+                                    current.draw();
+                                }
+                            }
+
+                            for (BulletStatus current: players.get(0).getBulletStatuses()) {
+                                if(current!=null){
+                                    current.draw();
+                                }
+                            }
+
+                            for (Life current: players.get(0).getLives()) {
+                                if(current!=null){
+                                    current.draw();
+                                }
+                            }
 
                             //CPU
                             moveCPU();
@@ -196,30 +257,30 @@ public class CanvasController implements Initializable {
 
                             //Player 1
                             if(Wpressed){
-                                player1.moveForward();
+                                players.get(1).getAvatar().moveForward();
                             }
                             if(Apressed){
-                                player1.changeAngle(-4);
+                                players.get(1).getAvatar().changeAngle(-4);
                             }
                             if(Spressed){
-                                player1.moveBackward();
+                                players.get(1).getAvatar().moveBackward();
                             }
                             if(Dpressed){
-                                player1.changeAngle(4);
+                                players.get(1).getAvatar().changeAngle(4);
                             }
 
                             //Player 2
                             if(UPpresed){
-                                player2.moveForward();
+                                players.get(2).getAvatar().moveForward();
                             }
                             if(LEFTpressed){
-                                player2.changeAngle(-4);
+                                players.get(2).getAvatar().changeAngle(-4);
                             }
                             if(DOWNpressed){
-                                player2.moveBackward();
+                                players.get(2).getAvatar().moveBackward();
                             }
                             if(RIGHTpressed){
-                                player2.changeAngle(4);
+                                players.get(2).getAvatar().changeAngle(4);
                             }
 
                             //Shoot P1
@@ -228,11 +289,11 @@ public class CanvasController implements Initializable {
                                     bullet.draw();
                                     bullet.move();
 
-                                    double x = CPU.getPos().x - bullet.pos.x;
-                                    double y = CPU.getPos().y - bullet.pos.y;
+                                    double x = players.get(0).getAvatar().getPos().x - bullet.pos.x;
+                                    double y = players.get(0).getAvatar().getPos().y - bullet.pos.y;
 
 
-                                    if (y > -15 && y < 15 && x > -15 && x < 15) {
+                                    if (y > -10 && y < 10 && x > -10 && x < 10) {
                                         //lives --1;
                                         System.out.println("-1");
                                         bullet = null;

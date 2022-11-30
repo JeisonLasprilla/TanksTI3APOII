@@ -18,10 +18,6 @@ public class Avatar {
 
     private Image tank;
 
-    private Image tank2;
-
-    private Image tankCPU;
-
     public Vector pos;
     public Vector direction;
 
