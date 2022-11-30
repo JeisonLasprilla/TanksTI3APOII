@@ -5,6 +5,9 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Avatar {
 
     private Canvas canvas;
@@ -16,8 +19,8 @@ public class Avatar {
 
     private Image tankCPU;
 
-    private Vector pos;
-    private Vector direction;
+    public Vector pos;
+    public Vector direction;
 
     public Avatar(Canvas canvas, String colorTank , Vector pos, Vector direction){
         this.canvas = canvas;
@@ -44,6 +47,10 @@ public class Avatar {
         return pos;
     }
 
+    public Vector getDirection() {
+        return direction;
+    }
+
     public String setAngle(double angle){
         double amp = direction.getAmplitude();
         direction.x = amp*Math.cos(angle);
@@ -66,6 +73,16 @@ public class Avatar {
     public void moveBackward(){
         pos.x -= direction.x;
         pos.y -= direction.y;
+    }
+
+    public void shoot(Canvas canvas){
+        double posx = pos.x;
+        double posy = pos.y;
+
+        double dirx = direction.x;
+        double diry = direction.y;
+
+
     }
 
 }

@@ -10,6 +10,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import model.Avatar;
+import model.Bullet;
 import model.Vector;
 
 import java.net.URL;
@@ -30,10 +31,11 @@ public class CanvasController implements Initializable {
     private Avatar player2;
 
     private Avatar CPU;
+    private Bullet bullet;
 
 
     //Estados de las teclas
-    boolean Wpressed, Apressed, Spressed, Dpressed, UPpresed, LEFTpressed, RIGHTpressed, DOWNpressed = false;
+    boolean Wpressed, Apressed, Spressed, Dpressed, UPpresed, LEFTpressed, RIGHTpressed, DOWNpressed, SPACEpressed = false;
 
 
 
@@ -109,6 +111,10 @@ public class CanvasController implements Initializable {
         if(keyEvent.getCode() == KeyCode.RIGHT){
             RIGHTpressed = true;
         }
+
+        if(keyEvent.getCode() == KeyCode.SPACE){
+            SPACEpressed = true;
+        }
     }
 
     public void moveCPU() {
@@ -116,7 +122,7 @@ public class CanvasController implements Initializable {
         Vector endPosition2 = player2.getPos();
 
         // Update is called once per frame
-        if(Math.abs(CPU.getPos().x - endPosition.x)> 5 || Math.abs(CPU.getPos().y - endPosition.y ) > 5) {
+        if(Math.abs(CPU.getPos().x - endPosition.x)> 130 || Math.abs(CPU.getPos().y - endPosition.y ) > 130) {
             double x = endPosition.x - CPU.getPos().x;
             double y = endPosition.y - CPU.getPos().y;
 
@@ -187,6 +193,14 @@ public class CanvasController implements Initializable {
                             }
                             if(RIGHTpressed){
                                 player2.changeAngle(3);
+                            }
+
+                            //Shoot P1
+                            if(SPACEpressed){
+                                Bullet bulletX = new Bullet(canvas, "bullet.png", player1.pos, player1.direction);
+                                Bullet bullet = Bullet.newInstance(bulletX);
+                                bullet.draw();
+                                bullet.move();
                             }
 
 
