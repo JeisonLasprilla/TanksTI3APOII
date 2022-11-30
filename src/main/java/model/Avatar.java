@@ -1,9 +1,12 @@
 package model;
 
+import com.example.ti3.CanvasController;
 import com.example.ti3.HelloApplication;
+import javafx.geometry.Bounds;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.shape.Rectangle;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,10 +73,13 @@ public class Avatar {
         pos.x -= direction.x;
         pos.y -= direction.y;
     }
+    public Bounds getBounds() {
+        Rectangle r = new  Rectangle(pos.x, pos.y, 10, 10);
+        return r.getBoundsInLocal();
+    }
 
-    public Bullet shoot(){
-        //return new Bullet(canvas,"bullet.png", pos.x, pos.y, Vector.instanceOf(direction));
-        return null;
+    public boolean borderColision(){
+        return CanvasController.map.walls.get(0).getBounds().intersects(getBounds());
     }
 
 }
