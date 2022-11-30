@@ -5,9 +5,14 @@ public class Vector {
     public double x;
     public double y;
 
-    public Vector(double x,double y){
-        this.x = x;
-        this.y = y;
+    public Vector(double x, double y) {
+        this.x = Double.valueOf(x);
+        this.y = Double.valueOf(y);
+    }
+
+
+    public static Vector instanceOf(Vector v){
+        return new Vector(v.x, v.y);
     }
 
     public double getAngle(){
