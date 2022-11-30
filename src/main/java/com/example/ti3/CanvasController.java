@@ -11,6 +11,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import model.Avatar;
 import model.Bullet;
+import model.Map;
 import model.Vector;
 
 import java.net.URL;
@@ -32,6 +33,7 @@ public class CanvasController implements Initializable {
 
     private Avatar CPU;
     private Bullet bullet;
+    private Map map;
 
 
     //Estados de las teclas
@@ -51,6 +53,8 @@ public class CanvasController implements Initializable {
         player2 = new Avatar(canvas, "blueTank.png",new Vector(559,43),new Vector(3,3));
         CPU = new Avatar(canvas, "orangeTank.png", new Vector(40,43),new Vector(2,2));
         bullet = new Bullet(canvas,"bullet.png", player1.pos.x, player1.pos.y, Vector.instanceOf(player1.direction));
+        map =  new Map(canvas, "map1.jpeg");
+
         draw();
     }
 
@@ -125,7 +129,13 @@ public class CanvasController implements Initializable {
         Vector endPosition2 = player2.getPos();
 
         // Update is called once per frame
-        if(Math.abs(CPU.getPos().x - endPosition.x)> 130 || Math.abs(CPU.getPos().y - endPosition.y ) > 130) {
+        double distance1 = Math.sqrt(Math.pow(endPosition.x-CPU.getPos().x,2) + Math.pow(endPosition.y-CPU.getPos().y,2));
+        double distance2 = Math.sqrt(Math.pow(endPosition2.x-CPU.getPos().x,2) + Math.pow(endPosition2.y-CPU.getPos().y,2));
+        if (distance2<distance1){
+            endPosition = endPosition2;
+        }
+
+        if(Math.abs(CPU.getPos().x - endPosition.x)> 100 || Math.abs(CPU.getPos().y - endPosition.y ) > 100) {
             double x = endPosition.x - CPU.getPos().x;
             double y = endPosition.y - CPU.getPos().y;
 
@@ -163,9 +173,9 @@ public class CanvasController implements Initializable {
                         Platform.runLater(()->{
                             gc.setFill(Color.BLACK);
                             gc.fillRect(0,0, canvas.getWidth(), canvas.getHeight());
+                            map.draw();
                             player1.draw();
                             player2.draw();
-
                             CPU.draw();
 
                             //CPU
@@ -176,13 +186,13 @@ public class CanvasController implements Initializable {
                                 player1.moveForward();
                             }
                             if(Apressed){
-                                player1.changeAngle(-3);
+                                player1.changeAngle(-4);
                             }
                             if(Spressed){
                                 player1.moveBackward();
                             }
                             if(Dpressed){
-                                player1.changeAngle(3);
+                                player1.changeAngle(4);
                             }
 
                             //Player 2
@@ -190,20 +200,31 @@ public class CanvasController implements Initializable {
                                 player2.moveForward();
                             }
                             if(LEFTpressed){
-                                player2.changeAngle(-3);
+                                player2.changeAngle(-4);
                             }
                             if(DOWNpressed){
                                 player2.moveBackward();
                             }
                             if(RIGHTpressed){
-                                player2.changeAngle(3);
+                                player2.changeAngle(4);
                             }
 
                             //Shoot P1
                             if(SPACEpressed){
+                                if (bullet!=null) {
+                                    bullet.draw();
+                                    bullet.move();
 
-                                bullet.draw();
-                                bullet.move();
+                                    double x = CPU.getPos().x - bullet.pos.x;
+                                    double y = CPU.getPos().y - bullet.pos.y;
+
+
+                                    if (y > -10 && y < 10 && x > -10 && x < 10) {
+                                        //lives --1;
+                                        System.out.println("-1");
+                                        bullet = null;
+                                    }
+                                }
                             }
 
 

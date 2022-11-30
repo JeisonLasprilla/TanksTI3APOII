@@ -9,7 +9,7 @@ public class Bullet {
     private Canvas canvas;
     private GraphicsContext gc;
     private Image bullet;
-    private Vector pos;
+    public Vector pos;
     private Vector direction;
 
     public Bullet(Canvas canvas, String bulletPath, double x,double y, Vector direction) {
@@ -20,31 +20,20 @@ public class Bullet {
         this.pos = new Vector(x*1, y*1);
         this.direction = Vector.instanceOf(direction);
     }
-   /* public Bullet (Bullet newBullet) {
-        this( newBullet.canvas, "bullet.png", newBullet.pos.x,newBullet.pos.y, new Vector(newBullet.direction));
-    }
-
-    public static Bullet newInstance(Bullet newBullet) {
-        return new Bullet(newBullet.canvas, "bullet.png",newBullet.pos.x,newBullet.pos.y,  new Vector(newBullet.direction));
-    }*/
-
     public void draw(){
         gc.save();
         gc.translate(pos.x, pos.y);
-        gc.drawImage(bullet, -25,-25, 50,50);
+        gc.rotate( 180+ direction.getAngle());
+        gc.drawImage(bullet, -10,-10, 20,20);
         gc.restore();
+    }
+
+    public void colision(){
+        gc.drawImage(null, 0,0,0,0);
     }
 
     public void move(){
         pos.x += direction.x;
         pos.y += direction.y;
-    }
-
-    public void setPos(double x, double y) {
-        this.pos = new Vector(x , y );
-    }
-
-    public void setDirection(double x, double y) {
-        this.direction = new Vector(x, y);
     }
 }

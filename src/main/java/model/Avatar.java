@@ -35,7 +35,7 @@ public class Avatar {
         gc.save();
         gc.translate(pos.x, pos.y);
         gc.rotate(90+direction.getAngle());
-        gc.drawImage(tank, -25,-25, 50,50);
+        gc.drawImage(tank, -25,-25, 30,30);
         gc.restore();
     }
     public void setPosition(double x, double y) {
