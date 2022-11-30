@@ -26,12 +26,12 @@ public class CanvasController implements Initializable {
 
 
     //Elementos gráficos
-    public static Avatar player1;
+//    public static Avatar players.get(1).getAvatar();
     private ArrayList<Player> players = new ArrayList<>();
 
-    private Avatar player2;
+//    private Avatar players.get(2).getAvatar();
 
-    private Avatar CPU;
+//    private Avatar players.get(0).getAvatar();
     private Bullet bullet;
     public static Map map;
     private Bounds bounds;
@@ -193,17 +193,17 @@ public class CanvasController implements Initializable {
         new Thread(
                 ()->{
                     while(isRunning){
-                        if(map.walls.get(0).borderColision(player1)) {
+                        if(map.walls.get(0).borderColision(players.get(1).getAvatar())) {
                             System.out.println("COLISION1");
-                            player1.pos.y += 10;
+                            players.get(1).getAvatar().pos.y += 10;
                         }
-                        if(map.walls.get(0).borderColision(player2)){
+                        if(map.walls.get(0).borderColision(players.get(2).getAvatar())){
                             System.out.println("COLISION2");
-                            player2.pos.y += 10;
+                            players.get(2).getAvatar().pos.y += 10;
                         }
-                        if(map.walls.get(0).borderColision(CPU)){
+                        if(map.walls.get(0).borderColision(players.get(0).getAvatar())){
                             System.out.println("COLISION CPU");
-                            CPU.pos.y += 10;
+                            players.get(0).getAvatar().pos.y += 10;
                         }
                         //Dibujo
                         Platform.runLater(()->{
@@ -316,7 +316,7 @@ public class CanvasController implements Initializable {
 
     public boolean collision1(){
         boolean collision;
-        if(player1.pos.x - player2.pos.x > -35 && player1.pos.x - player2.pos.x < 35 && player1.pos.y - player2.pos.y > -35 && player1.pos.y - player2.pos.y < 35){
+        if(players.get(1).getAvatar().pos.x - players.get(2).getAvatar().pos.x > -35 && players.get(1).getAvatar().pos.x - players.get(2).getAvatar().pos.x < 35 && players.get(1).getAvatar().pos.y - players.get(2).getAvatar().pos.y > -35 && players.get(1).getAvatar().pos.y - players.get(2).getAvatar().pos.y < 35){
             collision=true;
             System.out.println("Pum");
         }else {
@@ -327,7 +327,7 @@ public class CanvasController implements Initializable {
 
     public boolean collision2(){
         boolean collision;
-        if(player1.pos.x - CPU.pos.x > -35 && player1.pos.x - CPU.pos.x < 35 && player1.pos.y - CPU.pos.y > -35 && player1.pos.y - CPU.pos.y < 35){
+        if(players.get(1).getAvatar().pos.x - players.get(0).getAvatar().pos.x > -35 && players.get(1).getAvatar().pos.x - players.get(0).getAvatar().pos.x < 35 && players.get(1).getAvatar().pos.y - players.get(0).getAvatar().pos.y > -35 && players.get(1).getAvatar().pos.y - players.get(0).getAvatar().pos.y < 35){
             collision=true;
             System.out.println("Pum");
         }else {
@@ -338,7 +338,7 @@ public class CanvasController implements Initializable {
 
     public boolean collision3(){
         boolean collision;
-        if(player2.pos.x - CPU.pos.x > -35 && player2.pos.x - CPU.pos.x < 35 && player2.pos.y - CPU.pos.y > -35 && player2.pos.y - CPU.pos.y < 35){
+        if(players.get(2).getAvatar().pos.x - players.get(0).getAvatar().pos.x > -35 && players.get(2).getAvatar().pos.x - players.get(0).getAvatar().pos.x < 35 && players.get(2).getAvatar().pos.y - players.get(0).getAvatar().pos.y > -35 && players.get(2).getAvatar().pos.y - players.get(0).getAvatar().pos.y < 35){
             collision=true;
             System.out.println("Pum");
         }else {
@@ -349,20 +349,20 @@ public class CanvasController implements Initializable {
 
     public void collisionReact(){
         if(collision1()){
-            player1.pos.x = player1.pos.x - 10;
-            player1.pos.y = player1.pos.y - 10;
-            player2.pos.x =  player2.pos.x + 10;
-            player2.pos.y =  player2.pos.y + 10;
+            players.get(1).getAvatar().pos.x = players.get(1).getAvatar().pos.x - 10;
+            players.get(1).getAvatar().pos.y = players.get(1).getAvatar().pos.y - 10;
+            players.get(2).getAvatar().pos.x =  players.get(2).getAvatar().pos.x + 10;
+            players.get(2).getAvatar().pos.y =  players.get(2).getAvatar().pos.y + 10;
         } else if (collision2()) {
-            player1.pos.x = player1.pos.x - 10;
-            player1.pos.y = player1.pos.y - 10;
-            CPU.pos.x =  CPU.pos.x + 10;
-            CPU.pos.y =  CPU.pos.y + 10;
+            players.get(1).getAvatar().pos.x = players.get(1).getAvatar().pos.x - 10;
+            players.get(1).getAvatar().pos.y = players.get(1).getAvatar().pos.y - 10;
+            players.get(0).getAvatar().pos.x =  players.get(0).getAvatar().pos.x + 10;
+            players.get(0).getAvatar().pos.y =  players.get(0).getAvatar().pos.y + 10;
         } else if (collision3()) {
-            CPU.pos.x = CPU.pos.x - 10;
-            CPU.pos.y = CPU.pos.y - 10;
-            player2.pos.x =  player2.pos.x + 10;
-            player2.pos.y =  player2.pos.y + 10;
+            players.get(0).getAvatar().pos.x = players.get(0).getAvatar().pos.x - 10;
+            players.get(0).getAvatar().pos.y = players.get(0).getAvatar().pos.y - 10;
+            players.get(2).getAvatar().pos.x =  players.get(2).getAvatar().pos.x + 10;
+            players.get(2).getAvatar().pos.y =  players.get(2).getAvatar().pos.y + 10;
         }
     }
 
