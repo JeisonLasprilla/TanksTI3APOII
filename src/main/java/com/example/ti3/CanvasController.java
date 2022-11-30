@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -30,6 +31,8 @@ public class CanvasController implements Initializable {
 
     private Avatar CPU;
 
+    private Image pokemonMap;
+
 
     //Estados de las teclas
     boolean Wpressed, Apressed, Spressed, Dpressed, UPpresed, LEFTpressed, RIGHTpressed, DOWNpressed = false;
@@ -43,10 +46,9 @@ public class CanvasController implements Initializable {
 
         canvas.setOnKeyPressed(this::onKeyPressed);
         canvas.setOnKeyReleased(this::onKeyReleased);
-
-        player1 = new Avatar(canvas, "blueTank.png", new Vector(100,100),new Vector(3,3));
-        player2 = new Avatar(canvas, "greenTank.png",new Vector(200,100),new Vector(3,3));
-        CPU = new Avatar(canvas, "orangeTank.png", new Vector(50,100),new Vector(4,4));
+        player1 = new Avatar(canvas, "blueTank.png", new Vector(100,100),new Vector(3,3), new Vector(200, 200), new Vector(200, 200), new Vector(200, 200), new Vector(200, 200), new Vector(200, 200), new Vector(200, 200), new Vector(200, 200), new Vector(200, 200), new Vector(200, 200 ), new Vector(200, 200), new Vector(200, 200));
+        player2 = new Avatar(canvas, "greenTank.png",new Vector(200,100),new Vector(3,3), new Vector(200, 200), new Vector(200, 200), new Vector(200, 200), new Vector(200, 200), new Vector(200, 200), new Vector(200, 200), new Vector(200, 200), new Vector(200, 200), new Vector(200, 200), new Vector(200, 200), new Vector(200, 200));
+        CPU = new Avatar(canvas, "orangeTank.png", new Vector(50,100),new Vector(4,4), new Vector(200, 200), new Vector(200, 200), new Vector(200, 200), new Vector(200, 200), new Vector(200, 200), new Vector(200, 200), new Vector(200, 200), new Vector(200, 200), new Vector(200, 200), new Vector(200, 200), new Vector(200, 200));
         draw();
     }
 
