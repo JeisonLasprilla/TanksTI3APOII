@@ -52,9 +52,8 @@ public class CanvasController implements Initializable {
         player1 = new Avatar(canvas, "greenTank.png", new Vector(559,361),new Vector(3,3));
         player2 = new Avatar(canvas, "blueTank.png",new Vector(559,43),new Vector(3,3));
         CPU = new Avatar(canvas, "orangeTank.png", new Vector(40,43),new Vector(2,2));
-        bullet = new Bullet(canvas,"bullet.png", player1.pos.x, player1.pos.y, Vector.instanceOf(player1.direction));
-        map =  new Map(canvas, "map1.jpeg");
         bullet = new Bullet(canvas,"greenBullet.png", player1.pos.x, player1.pos.y, Vector.instanceOf(player1.direction));
+        map =  new Map(canvas, "map1.jpeg");
         draw();
     }
 
@@ -135,17 +134,17 @@ public class CanvasController implements Initializable {
             endPosition = endPosition2;
         }
 
-        if(Math.abs(CPU.getPos().x - endPosition.x)> 100 || Math.abs(CPU.getPos().y - endPosition.y ) > 100) {
+        if(Math.abs(CPU.getPos().x - endPosition.x)> 50 || Math.abs(CPU.getPos().y - endPosition.y ) > 50) {
             double x = endPosition.x - CPU.getPos().x;
             double y = endPosition.y - CPU.getPos().y;
 
             double abs = Math.abs(Math.tanh(y / x));
-            if (y > -5 && y < 5){
+            if (y > -1 && y < 1){
                 if (x > 0)
                     CPU.setAngle(0);
                 else
                     CPU.setAngle(Math.PI);
-            } else if (x > -5 && x < 5){
+            } else if (x > -1 && x < 1){
                 if (y>0)
                     CPU.setAngle(Math.PI * 0.5);
                 else
@@ -219,7 +218,7 @@ public class CanvasController implements Initializable {
                                     double y = CPU.getPos().y - bullet.pos.y;
 
 
-                                    if (y > -10 && y < 10 && x > -10 && x < 10) {
+                                    if (y > -15 && y < 15 && x > -15 && x < 15) {
                                         //lives --1;
                                         System.out.println("-1");
                                         bullet = null;

@@ -32,7 +32,7 @@ public class Bullet {
         gc.save();
         gc.translate(pos.x, pos.y);
         gc.rotate( 180+ direction.getAngle());
-        gc.drawImage(bullet, -10,-10, 20,20);
+        gc.drawImage(bullet, -7,-8, 40,40);
         gc.restore();
     }
 
