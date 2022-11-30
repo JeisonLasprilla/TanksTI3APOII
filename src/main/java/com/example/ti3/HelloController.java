@@ -16,8 +16,6 @@ public class HelloController implements Initializable {
     @FXML
     void play(ActionEvent event) {
         HelloApplication.showWindow("username.fxml");
-//        Stage currentStage = (Stage) imageView.getScene().getWindow();
-//        currentStage.hide();
     }
 
     @FXML

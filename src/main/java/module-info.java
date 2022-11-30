@@ -5,4 +5,6 @@ module com.example.ti3 {
 
     opens com.example.ti3 to javafx.fxml;
     exports com.example.ti3;
+    exports model;
+    opens model to javafx.fxml;
 }
